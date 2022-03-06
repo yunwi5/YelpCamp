@@ -1,24 +1,18 @@
 const express = require("express");
 const router = express.Router();
+// For image uploading form
+const multer = require("multer");
+const { storage } = require("../cloudinary/index"); // Cloudinary
+const upload = multer({ storage });
 
 const catchAsync = require("../utils/catchAsync");
 const { isLoggedIn, validateAuthor, validateCampground } = require("../middleware");
 const controller = require("../controllers/campgrounds");
-// For image uploading form
-const multer = require('multer')
-const upload = multer({ dest: 'uploads/' })
 
 router
     .route("/")
     .get(catchAsync(controller.index))
-    // .post(isLoggedIn, validateCampground, catchAsync(controller.createCampground));
-    .post(upload.array('image'), (req, res) => {
-        console.log(req.body, req.files);
-        res.json({
-            body: req.body,
-            file: req.files
-        });
-    })
+    .post(isLoggedIn, upload.array("image"), validateCampground, catchAsync(controller.createCampground));
 
 router.get("/new", isLoggedIn, controller.renderNewForm);
 
@@ -26,7 +20,7 @@ router
     .route("/:id")
     .get(catchAsync(controller.showCampground))
     // Edit PUT route
-    .put(isLoggedIn, validateAuthor, validateCampground, catchAsync(controller.updateCampground))
+    .put(isLoggedIn, validateAuthor, upload.array('image'), validateCampground, catchAsync(controller.updateCampground))
     .delete(isLoggedIn, validateAuthor, catchAsync(controller.deleteCampgroud));
 
 // Edit GET route
