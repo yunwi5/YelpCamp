@@ -1,7 +1,9 @@
 const mongoose = require('mongoose')
+
 const Campground = require('../models/campground')
 const cities = require('./cities')
 const { places, descriptors } = require('./seedHelpers')
+const { getGeoData } = require('../utils/geomap');
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {
     useNewUrlParser: true,
@@ -21,12 +23,17 @@ const seedDB = async () => {
     for (let i = 0; i < 50; i++) {
         const random1000 = Math.floor(Math.random() * 1000)
         const price = Math.floor(Math.random() * 30) * 10;
+
+        const location = `${cities[random1000].city}, ${cities[random1000].city}`;
+        const geometry = await getGeoData(location);
+
         const camp = new Campground({
             author: '6221eebec8e8afe7c6f27942',
-            location: `${cities[random1000].city}, ${cities[random1000].city}`,
+            location,
             title: `${sample(descriptors)} ${sample(places)}`,
             description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Enim id officiis possimus, iusto deleniti asperiores dignissimos consequatur saepe labore nam natus animi, quisquam nisi voluptates temporibus. Numquam mollitia ratione deleniti?',
             price,
+            geometry,
             images: [
                 {
                     url: 'https://res.cloudinary.com/diglbnk1i/image/upload/v1646577070/YelpCamp/dvamxvdwirgc60jzlp6z.jpg',

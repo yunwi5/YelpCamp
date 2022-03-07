@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Review = require('./review')
 const Schema = mongoose.Schema
 
-// Thumbnail img url example
+// Thumbnail img url example. w_300 for tiny image size control.
 // https://res.cloudinary.com/diglbnk1i/image/upload/w_300/v1646583736/YelpCamp/keqcxeiyk63lgtl26y0o.jpg
 
 const ImageSchema = new Schema({
@@ -21,6 +21,17 @@ const CampGroundSchema = new Schema({
     price: Number,
     description: String,
     location: String,
+    geometry: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }
+    },
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User'
