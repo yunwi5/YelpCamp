@@ -50,7 +50,7 @@ const validateReview = (req, res, next) => {
 const validateReviewAuthor = async (req, res, next) => {
     const { id, review_id } = req.params;
     const review = await Review.findById(review_id);
-    // Before population
+    // Before author population. Use equals() method to compre the userId
     if (!review.author.equals(req.user._id)) {
         req.flash('error', "Sorry, you don't have permission to do that");
         return res.redirect(`/campgrounds/${id}`);
