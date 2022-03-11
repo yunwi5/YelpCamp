@@ -21,7 +21,7 @@ const createCampground = async (req, res, next) => {
     campground.geometry = geoDataGeometry;
 
     await campground.save();
-    console.log(campground);
+    // console.log(campground);
 
     req.flash("success", "Successfully made a new campground!");
     res.redirect(`/campgrounds/${campground._id}`);
@@ -66,7 +66,6 @@ const updateCampground = async (req, res) => {
     const images = req.files.map((f) => ({ url: f.path, filename: f.filename }));
     // ...images not [...images]
     campground.images.push(...images);
-    console.log(campground.images);
     await campground.save();
 
     if (req.body.deleteImages) {
