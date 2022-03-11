@@ -1,10 +1,17 @@
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
+// Stand alone program.
 const mongoose = require("mongoose");
 
 const Campground = require("../models/campground");
 const cities = require("./cities");
 const { places, descriptors } = require("./seedHelpers");
+const { getRandomImages } = require('./randomImages');
 
-mongoose.connect("mongodb://localhost:27017/yelp-camp", {
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/yelp-camp"
+mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -22,11 +29,11 @@ const seedDB = async () => {
     for (let i = 0; i < 150; i++) {
         const random1000 = Math.floor(Math.random() * 1000);
         const price = Math.floor(Math.random() * 30) * 10;
-
         const location = `${cities[random1000].city}, ${cities[random1000].city}`;
+        const randomImages = getRandomImages();
 
         const camp = new Campground({
-            author: "6221eebec8e8afe7c6f27942",
+            author: "622b41c954b461e372fd50b7",
             location,
             title: `${sample(descriptors)} ${sample(places)}`,
             description:
@@ -36,23 +43,7 @@ const seedDB = async () => {
                 type: "Point",
                 coordinates: [cities[random1000].longitude, cities[random1000].latitude]
             },
-            images: [
-                {
-                    url:
-                        "https://res.cloudinary.com/diglbnk1i/image/upload/v1646577070/YelpCamp/dvamxvdwirgc60jzlp6z.jpg",
-                    filename: "YelpCamp/dvamxvdwirgc60jzlp6z"
-                },
-                {
-                    url:
-                        "https://res.cloudinary.com/diglbnk1i/image/upload/v1646577072/YelpCamp/wczxowmewtqqhu91jjwo.jpg",
-                    filename: "YelpCamp/wczxowmewtqqhu91jjwo"
-                },
-                {
-                    url:
-                        "https://res.cloudinary.com/diglbnk1i/image/upload/v1646577075/YelpCamp/fh6aywzvthlzjz5cu0ih.jpg",
-                    filename: "YelpCamp/fh6aywzvthlzjz5cu0ih"
-                }
-            ]
+            images: randomImages
         });
         await camp.save();
     }
