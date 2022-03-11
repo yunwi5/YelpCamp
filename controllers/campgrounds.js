@@ -1,6 +1,4 @@
 const { cloudinary } = require('../cloudinary');
-const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
-const mapboxToken = process.env.MAPBOX_TOKEN;
 
 const Campground = require("../models/campground");
 const { getGeoData } = require('../utils/geomap');
