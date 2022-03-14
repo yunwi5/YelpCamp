@@ -1,12 +1,5 @@
 const { hasDuplicates, getRandomNumber } = require('../utils/generalUtils');
 
-/* 
- {
-    url:
-        "https://res.cloudinary.com/diglbnk1i/image/upload/v1646577070/YelpCamp/dvamxvdwirgc60jzlp6z.jpg",
-    filename: "YelpCamp/dvamxvdwirgc60jzlp6z"
-},
-*/
 const randomImgArray = [
     {
         url: "https://res.cloudinary.com/diglbnk1i/image/upload/v1646580005/YelpCamp/kkuhvywb3euvpmizlgsb.jpg",

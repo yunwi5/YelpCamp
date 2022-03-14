@@ -116,13 +116,14 @@ app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
 })
 
-// middleware error handling
+// middleware error handling route
 app.use((err, req, res, next) => {
     const { status = 500 } = err
     if (!err.message) err.message = 'Something went wrong!'
     res.status(status).render('error', { err })
 })
 
+// process.env.PORT will be set up automatically by Heroku on the deployment server.
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
     console.log(`Serving on port ${port}`);
