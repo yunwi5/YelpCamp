@@ -2,9 +2,6 @@ const mongoose = require('mongoose')
 const Review = require('./review')
 const Schema = mongoose.Schema
 
-// Thumbnail img url example. w_300 for tiny image size control.
-// https://res.cloudinary.com/diglbnk1i/image/upload/w_300/v1646583736/YelpCamp/keqcxeiyk63lgtl26y0o.jpg
-
 const ImageSchema = new Schema({
     url: String,
     filename: String
